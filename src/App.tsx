@@ -1,908 +1,443 @@
+import type { CSSProperties, ReactNode } from 'react';
 import Deck from './deck/Deck';
 import Slide from './deck/Slide';
 import Build from './deck/Build';
 import Reveal from './deck/Reveal';
-import Bento from './components/Bento';
-import Split from './components/Split';
-import CountUp from './components/CountUp';
-import TiltCard from './components/TiltCard';
-import Marquee from './components/Marquee';
-import VisualDashboard from './components/VisualDashboard';
-import StatGrid from './components/StatGrid';
-import Accordion from './components/Accordion';
-import Comparison from './components/Comparison';
-import Tabs from './components/Tabs';
-import Timeline from './components/Timeline';
-import CodeWindow from './components/CodeWindow';
-import BrowserFrame from './components/BrowserFrame';
-import SpotlightCard from './components/SpotlightCard';
-import { BarChart, LineChart, DonutChart } from './components/Charts';
-import Section from './components/Section';
-import Quote from './components/Quote';
-import Pricing from './components/Pricing';
-import Steps from './components/Steps';
-import Agenda from './components/Agenda';
-import Team from './components/Team';
 import Cover from './components/Cover';
-import BigNumber from './components/BigNumber';
-import Contrast from './components/Contrast';
-import Chat from './components/Chat';
+import Agenda from './components/Agenda';
+import Split from './components/Split';
+import Bento from './components/Bento';
+import Steps from './components/Steps';
 import Table from './components/Table';
-import Globe from './components/Globe';
+import Timeline from './components/Timeline';
+import Section from './components/Section';
+import StatGrid from './components/StatGrid';
+import CountUp from './components/CountUp';
+import Tabs from './components/Tabs';
+import BigNumber from './components/BigNumber';
+import Accordion from './components/Accordion';
+import KompositaVisual from './components/KompositaVisual';
+import HBarChart from './components/HBarChart';
+import PairList from './components/PairList';
 
-/* ══════════════════════════════════════════════════════════════════════
-   ⚠️  THROWAWAY DEMO showing every component. DELETE these slides and AUTHOR
-   THE USER'S DECK. Each child of <Deck> is one slide. Add speaker notes with
-   notes="…" on any slide (shown in presenter mode — press P).
-   ══════════════════════════════════════════════════════════════════════ */
-const panel = (extra = 0.22): React.CSSProperties => ({
+/* Seminar Hasil — M. Iqbal Al Batmi Nur Haikal (22020504056), Sastra Jerman UNESA.
+   Every figure and example below is taken from the skripsi (Bab I–V). */
+
+const panel: CSSProperties = {
   position: 'absolute',
   inset: 0,
-  background: `radial-gradient(120% 100% at 30% 20%, color-mix(in srgb, var(--primary) ${
-    extra * 100
-  }%, transparent), transparent 60%), var(--surface-2)`,
-});
-const card: React.CSSProperties = {
-  padding: 22,
+  background:
+    'radial-gradient(120% 100% at 30% 20%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 60%), var(--surface)',
+};
+const card: CSSProperties = {
+  padding: 'clamp(18px,2vw,26px)',
   borderRadius: 'var(--radius)',
   background: 'var(--surface)',
   border: '1px solid var(--hair)',
+  textAlign: 'left',
 };
+
+function Heading({ kicker, children }: { kicker: string; children: ReactNode }) {
+  return (
+    <Reveal>
+      <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+        {kicker}
+      </div>
+      <h2
+        className="headline"
+        style={{
+          textAlign: 'center',
+          marginInline: 'auto',
+          marginBottom: 'clamp(20px,3.5vh,36px)',
+        }}
+      >
+        {children}
+      </h2>
+    </Reveal>
+  );
+}
 
 export default function App() {
   return (
     <Deck>
-      {/* Cover */}
+      {/* 1 — Cover */}
       <Cover
-        nav="Cover"
-        notes="Welcome — introduce yourself, then set up the problem. Hold a beat on this slide."
-        kicker="Bolt Slides · Component demo"
-        title={<span className="accent-text">Bolt Slides</span>}
-        subtitle="A responsive React deck engine. Delete this and build the real one."
-        foot="June 2026 · Component demo"
+        nav="Judul"
+        notes="Salam pembuka, perkenalkan diri (nama, NIM), sebutkan judul lengkap. Terima kasih kepada dosen pembimbing dan penguji."
+        kicker="Seminar Hasil · Sastra Jerman · Universitas Negeri Surabaya"
+        title={
+          <>
+            Teknik Penerjemahan <span className="accent-text">Nominalkomposita</span> dalam
+            Götzen-Dämmerung
+          </>
+        }
+        subtitle="Karya Friedrich Nietzsche dari bahasa Jerman ke bahasa Indonesia"
+        foot="M. Iqbal Al Batmi Nur Haikal · NIM 22020504056 · 2026"
       />
 
-      {/* Statement + click-build */}
-      <Slide
-        center
-        nav="Thesis"
-        notes="Pause before revealing the second line. The whole pitch hangs on this contrast."
-      >
-        <h2
-          className="headline"
-          style={{ fontSize: 'clamp(34px,5.5vw,68px)', marginInline: 'auto' }}
-        >
-          Dashboards are everywhere.{' '}
-          <span className="accent-text">Insight isn't.</span>
-        </h2>
-        <Build at={1}>
-          <p className="subhead" style={{ marginTop: 20 }}>
-            Bolt Slides turns raw events into answers — automatically.
-          </p>
-        </Build>
-      </Slide>
-
-      {/* Agenda */}
+      {/* 2 — Agenda */}
       <Agenda
-        nav="Agenda"
-        notes="Thirty seconds max — just orient the room, then move."
-        kicker="Agenda"
-        title="What we'll cover."
+        nav="Alur"
+        notes="Gambaran alur presentasi. Fokus utama ada di hasil dan pembahasan."
+        kicker="Alur presentasi"
+        title="Yang akan saya sampaikan."
         items={[
-          'The problem',
-          'How Bolt Slides works',
-          'Proof it compounds',
-          { title: 'Pricing & the ask', hint: '5 min' },
+          { title: 'Latar belakang & rumusan masalah', hint: 'Bab I' },
+          { title: 'Landasan teori', hint: 'Bab II' },
+          { title: 'Metode penelitian', hint: 'Bab III' },
+          { title: 'Hasil & pembahasan', hint: 'Bab IV' },
+          { title: 'Simpulan & saran', hint: 'Bab V' },
         ]}
       />
 
-      {/* Contrast — the problem */}
-      <Contrast
-        nav="The problem"
-        notes="Let the left panel sting for a second before you talk to the right one."
-        kicker="The shift"
-        title="Stop digging. Start asking."
-        left={{
-          label: 'Before',
-          title: 'Dashboard sprawl',
-          points: [
-            'Forty dashboards, zero answers',
-            'Analysts as human query engines',
-            'Insights arrive a week late',
-          ],
-        }}
-        right={{
-          label: 'With Bolt Slides',
-          title: 'Answers on tap',
-          points: [
-            'Ask in plain English',
-            'Sub-second, source-linked answers',
-            'Alerts before the dashboard knows',
-          ],
-        }}
-      />
-
-      {/* Split feature */}
+      {/* 3 — Latar belakang: satu kata Jerman, satu frasa Indonesia */}
       <Split
-        nav="Realtime"
-        notes="Emphasize sub-second latency. Point at the live chart while you talk."
-        kicker="Realtime"
+        nav="Latar belakang"
+        notes="Bahasa Jerman membentuk kosakata terutama lewat komposisi (Fleischer & Barz, 2012). Bahasa Indonesia lebih banyak lewat afiksasi dan reduplikasi (Chaer, 2008). Contoh Weltanschauung: kedua konstituen diterjemahkan lalu urutannya dibalik. Penerjemah juga bisa meminjam atau menguraikan — setiap pilihan menghasilkan teks berbeda, dan di teks filsafat bisa menyentuh konsep pengarang."
+        kicker="Latar belakang"
         title={
           <>
-            Everything, <span className="accent-text">as it happens.</span>
+            Satu kata dalam bahasa Jerman, <span className="accent-text">satu frasa</span> dalam
+            bahasa Indonesia.
           </>
         }
-        body="Live metrics with sub-second latency — no pipelines to babysit."
+        body="Bahasa Jerman gemar memadatkan dua nomina menjadi satu kata (Kompositionsfreudigkeit). Bahasa Indonesia tidak punya mekanisme seproduktif itu, jadi penerjemah harus memilih bentuk lain."
         media={
           <>
-            <div style={panel(0.22)} />
-            <div
-              style={{
-                position: 'relative',
-                padding: 'clamp(14px,3vw,40px)',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <TiltCard>
-                <VisualDashboard />
-              </TiltCard>
+            <div style={panel} />
+            <div style={{ position: 'relative', padding: 'clamp(20px,4vw,48px)', width: '100%' }}>
+              <KompositaVisual
+                parts={[
+                  { word: 'Welt', gloss: 'dunia', role: 'Bestimmungswort' },
+                  { word: 'Anschauung', gloss: 'pandangan', role: 'Grundwort', head: true },
+                ]}
+                result="Weltanschauung"
+                target="pandangan dunia"
+                targetNote="inti di depan, penentu di belakang"
+              />
             </div>
           </>
         }
       />
 
-      {/* Bento */}
+      {/* 4 — Objek & celah penelitian */}
       <Bento
-        nav="Platform"
-        notes="Don't read every tile — let them scan. Land on throughput and uptime."
-        kicker="One platform"
-        title="Everything in one place."
+        nav="Objek & celah"
+        notes="Götzen-Dämmerung ditulis musim gugur 1888, beredar awal 1889 (Sommer, 2020). Gaya aforistik memadatkan argumen; komposita adalah salah satu sarananya. Terjemahan Indonesia dibuat dari edisi Inggris Hollingdale (Penguin, 1968), jadi terjemahan tidak langsung. Penelitian terdahulu: teknik pada kata budaya/kalimat berita, atau struktur komposita tanpa penerjemahan."
+        kicker="Objek & celah penelitian"
+        title="Mengapa Nietzsche, dan mengapa komposita."
         tiles={[
           {
-            k: 'Throughput',
-            fig: <CountUp to={9.4} decimals={1} suffix="M" />,
-            body: 'events / min at peak.',
-            c: 5,
-            r: 2,
+            k: 'Teks sumber (BSu)',
+            title: 'Götzen-Dämmerung (1889)',
+            body: 'Aforistik dan padat. Nominalkomposita seperti Zeitgötze, Gewissensbiss, dan Werthurtheil menjadi sarana pemadatan argumen.',
+            c: 2,
+            variant: 'accent',
+          },
+          {
+            k: 'Teks sasaran (BSa)',
+            title: 'Senjakala Berhala (2017)',
+            body: 'Terjemahan Hartono Hadikusumo, dibuat dari edisi Inggris R. J. Hollingdale (1968): terjemahan tidak langsung.',
+          },
+          {
+            k: 'Kerangka',
+            title: 'Molina & Albir (2002)',
+            body: '18 teknik yang bekerja pada satuan mikro teks dan sudah dipakai dalam penelitian Jerman–Indonesia sebelumnya.',
+          },
+          {
+            k: 'Celah',
+            title: 'Nominalkomposita belum pernah menjadi satu-satunya unit analisis dalam terjemahan teks filsafat',
+            body: 'Dampak teknik penerjemahannya terhadap makna juga belum dinilai.',
+            c: 2,
             variant: 'glow',
           },
-          {
-            k: 'Uptime',
-            fig: <CountUp to={99.99} decimals={2} suffix="%" />,
-            c: 4,
-          },
-          { k: 'Regions', fig: <CountUp to={28} />, c: 3, variant: 'accent' },
-          {
-            k: 'Connectors',
-            title: '120+ native',
-            body: 'Snowflake, Kafka, dbt…',
-            c: 4,
-          },
-          { k: 'Compliance', title: 'SOC 2 · HIPAA', c: 3 },
         ]}
       />
 
-      {/* Globe */}
-      <Globe
-        nav="Global"
-        notes="Spin it if you like — the markers are our actual regions. Land on the APAC number."
-        kicker="28 regions"
-        title={
-          <>
-            Everywhere your <span className="accent-text">data lives.</span>
-          </>
-        }
-        body="Ingest close to the source; answer from the nearest edge."
-        markers={[
-          {
-            location: [37.77, -122.41],
-            size: 0.08,
-            label: 'sfo1',
-            value: '221k evt/s',
-          },
-          { location: [40.71, -74.0], size: 0.08 },
-          {
-            location: [51.5, -0.12],
-            size: 0.07,
-            label: 'lhr1',
-            value: '188k evt/s',
-          },
-          { location: [52.52, 13.4], size: 0.05 },
-          {
-            location: [1.35, 103.82],
-            size: 0.07,
-            label: 'sin1',
-            value: '96k evt/s',
-          },
-          { location: [35.68, 139.69], size: 0.06 },
-          { location: [-33.87, 151.2], size: 0.05 },
-          { location: [-23.55, -46.63], size: 0.05 },
-        ]}
-        arcs={[
-          { from: [37.77, -122.41], to: [51.5, -0.12] },
-          { from: [51.5, -0.12], to: [1.35, 103.82] },
-          { from: [37.77, -122.41], to: [-23.55, -46.63] },
-        ]}
-        stats={[
-          { value: '48%', label: 'North America' },
-          { value: '31%', label: 'EMEA' },
-          { value: '21%', label: 'APAC + LATAM' },
-        ]}
-      />
-
-      {/* StatGrid — traction */}
-      <StatGrid
-        nav="Traction"
-        notes="These are the headline numbers investors remember. Say ARR is up 3× out loud."
-        kicker="Traction"
-        title="Numbers that compound."
-        stats={[
-          {
-            value: <CountUp to={4.2} decimals={1} prefix="$" suffix="M" />,
-            label: 'ARR',
-            caption: 'up 3× year over year',
-          },
-          {
-            value: <CountUp to={92} suffix="%" />,
-            label: 'Net retention',
-            caption: 'best in class',
-          },
-          {
-            value: <CountUp to={120} suffix="+" />,
-            label: 'Enterprise logos',
-            caption: 'across six industries',
-          },
-        ]}
-      />
-
-      {/* BigNumber */}
-      <BigNumber
-        nav="Big number"
-        notes="Let the number breathe. One sentence of context, then move."
-        kicker="Every day"
-        value={<CountUp to={2.4} decimals={1} suffix="B" />}
-        caption="events answered in under a second."
-        foot="Production traffic, trailing 30 days"
-      />
-
-      {/* Section divider */}
-      <Section
-        nav="Part two"
-        notes="Breathe. New chapter."
-        n={2}
-        kicker="Part two"
-        title={
-          <>
-            How it <span className="accent-text">works.</span>
-          </>
-        }
-      />
-
-      {/* Steps */}
-      <Steps
-        nav="How it works"
-        notes="Walk left to right. The point is that step three is where competitors stop."
-        kicker="How it works"
-        title="Three steps to live data."
-        items={[
-          {
-            title: 'Connect',
-            body: 'Point Bolt Slides at your warehouse or event stream. No schema to define.',
-          },
-          {
-            title: 'Model',
-            body: 'It learns your entities and builds the metric graph automatically.',
-          },
-          {
-            title: 'Act',
-            body: 'Ask questions in plain English; alerts fire before dashboards notice.',
-          },
-        ]}
-      />
-
-      {/* Chat */}
-      <Chat
-        nav="Ask anything"
-        notes="Click through the exchange one message at a time — pause after the answer lands."
-        kicker="Ask anything"
-        title="Plain English in. Answers out."
-        name="Bolt Slides"
-        messages={[
-          { from: 'user', text: 'Why did signups dip last week?' },
-          {
-            from: 'ai',
-            text: 'Signups fell 12% after Tuesday’s pricing-page change. The drop is entirely mobile — desktop is flat.',
-          },
-          { from: 'user', text: 'Roll it back for mobile only?' },
-          {
-            from: 'ai',
-            text: 'Done. I’ll alert you when the trend recovers — based on current traffic, roughly 6 hours.',
-          },
-        ]}
-      />
-
-      {/* Comparison */}
-      <Slide
-        nav="Comparison"
-        notes="Lead with realtime. If they push on price, point at the highlighted column."
-      >
-        <Reveal>
-          <div
-            className="kicker"
-            style={{ marginBottom: 12, textAlign: 'center' }}
-          >
-            Why teams switch
-          </div>
-          <h2
-            className="headline"
-            style={{
-              textAlign: 'center',
-              marginInline: 'auto',
-              marginBottom: 'clamp(22px,4vh,38px)',
-            }}
-          >
-            The honest comparison.
-          </h2>
-        </Reveal>
-        <Reveal>
-          <div style={{ maxWidth: 820, marginInline: 'auto' }}>
-            <Comparison
-              cols={['', 'Bolt Slides', 'Legacy tools']}
-              highlight={0}
-              rows={[
-                { label: 'Realtime by default', values: [true, false] },
-                { label: 'Self-host option', values: [true, false] },
-                {
-                  label: 'Time to first insight',
-                  values: ['5 min', '2 weeks'],
-                },
-                { label: 'Starting price', values: ['$29', '$99'] },
-              ]}
-            />
-          </div>
-        </Reveal>
-      </Slide>
-
-      {/* Tabs */}
-      <Slide
-        nav="Use cases"
-        notes="Click through the tabs as you speak to each team. Stop on the one that fits the room."
-      >
-        <Reveal>
-          <div
-            className="kicker"
-            style={{ marginBottom: 12, textAlign: 'center' }}
-          >
-            One platform
-          </div>
-          <h2
-            className="headline"
-            style={{
-              textAlign: 'center',
-              marginInline: 'auto',
-              marginBottom: 'clamp(20px,3vh,30px)',
-            }}
-          >
-            Built for every team.
-          </h2>
-        </Reveal>
-        <Reveal
-          style={{ textAlign: 'center', maxWidth: 780, marginInline: 'auto' }}
-        >
-          <Tabs
-            tabs={[
-              {
-                label: 'Engineering',
-                content: (
-                  <p className="lead">
-                    Trace any request end-to-end, alert on anomalies, ship with
-                    confidence.
-                  </p>
-                ),
-              },
-              {
-                label: 'Data',
-                content: (
-                  <div style={{ height: 180 }}>
-                    <BarChart
-                      data={[
-                        { label: 'Mon', value: 38 },
-                        { label: 'Tue', value: 55 },
-                        { label: 'Wed', value: 47 },
-                        { label: 'Thu', value: 72 },
-                        { label: 'Fri', value: 90 },
-                      ]}
-                      height={180}
-                    />
-                  </div>
-                ),
-              },
-              {
-                label: 'Ops',
-                content: (
-                  <p className="lead">
-                    One source of truth for uptime, cost, and capacity — no
-                    spreadsheets.
-                  </p>
-                ),
-              },
-            ]}
-          />
-        </Reveal>
-      </Slide>
-
-      {/* Split + code */}
-      <Split
-        nav="Developer-first"
-        notes="Three lines, no schema. If there's an engineer in the room, this is the slide for them."
-        kicker="Developer-first"
-        title={
-          <>
-            Drop-in <span className="accent-text">simple.</span>
-          </>
-        }
-        body="Add it to your app in three lines. No SDK to learn, no schema to define."
-        media={
-          <>
-            <div style={panel(0.16)} />
-            <div style={{ position: 'relative', padding: 36, width: '100%' }}>
-              <CodeWindow
-                title="app.ts"
-                highlight={[3]}
-                code={`import { track } from '@bolt-slides/sdk'
-
-track('signup', {
-  plan: 'pro',
-  source: 'landing',
-})`}
-              />
-            </div>
-          </>
-        }
-      />
-
-      {/* Browser frame */}
+      {/* 5 — Rumusan masalah */}
       <Slide
         center
-        nav="Product"
-        notes="Demo the real thing if you can. Otherwise walk the screen top to bottom."
+        nav="Rumusan masalah"
+        notes="Dua rumusan masalah; tujuan penelitian mengikuti keduanya secara langsung: mendeskripsikan teknik + teknik dominan, lalu mendeskripsikan implikasinya terhadap makna."
       >
-        <Reveal>
-          <div className="kicker" style={{ marginBottom: 14 }}>
-            See it live
-          </div>
-          <h2
-            className="headline"
-            style={{
-              fontSize: 'clamp(30px,4.4vw,52px)',
-              marginInline: 'auto',
-              marginBottom: 'clamp(18px,3vh,28px)',
-            }}
-          >
-            Your data, one screen.
-          </h2>
-        </Reveal>
-        <Reveal>
-          <div style={{ maxWidth: 800, marginInline: 'auto', width: '100%' }}>
-            <BrowserFrame url="app.boltslides.dev">
-              <div
-                className="appmock"
-                style={{ minHeight: 'clamp(280px, 42vh, 372px)' }}
-              >
-                <div
-                  className="hide-narrow"
-                  style={{
-                    borderRight: '1px solid var(--hair-2)',
-                    background: 'var(--surface)',
-                    padding: '18px 14px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 4,
-                  }}
-                >
-                  <div
-                    className="kicker"
-                    style={{ marginBottom: 12, paddingLeft: 8 }}
-                  >
-                    Bolt Slides
-                  </div>
-                  {['Overview', 'Events', 'Funnels', 'Cohorts', 'Settings'].map(
-                    (n, i) => (
-                      <div
-                        key={n}
-                        style={{
-                          padding: '8px 12px',
-                          borderRadius: 9,
-                          fontSize: 14,
-                          fontWeight: i === 0 ? 600 : 400,
-                          color:
-                            i === 0 ? 'var(--accent-ink)' : 'var(--fg-muted)',
-                          background: i === 0 ? 'var(--accent)' : 'transparent',
-                        }}
-                      >
-                        {n}
-                      </div>
-                    )
-                  )}
-                </div>
-                <div style={{ padding: '20px 24px', textAlign: 'left' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      justifyContent: 'space-between',
-                      marginBottom: 16,
-                    }}
-                  >
-                    <h3 style={{ fontSize: 19, fontWeight: 600, margin: 0 }}>
-                      Overview
-                    </h3>
-                    <span className="foot">Last 30 days</span>
-                  </div>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns:
-                        'repeat(auto-fit, minmax(min(110px, 100%), 1fr))',
-                      gap: 12,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {[
-                      ['Revenue', '$1.24M', '▲ 18.2%'],
-                      ['Active users', '48,210', '▲ 9.4%'],
-                      ['Churn', '1.9%', '▼ 0.6%'],
-                    ].map(([l, v, d]) => (
-                      <div key={l} style={{ ...card, padding: 14 }}>
-                        <div className="foot" style={{ marginBottom: 5 }}>
-                          {l}
-                        </div>
-                        <div
-                          style={{
-                            fontSize: 23,
-                            fontWeight: 600,
-                            letterSpacing: '-0.02em',
-                            fontVariantNumeric: 'tabular-nums',
-                          }}
-                        >
-                          {v}
-                        </div>
-                        <div
-                          style={{
-                            fontSize: 12,
-                            fontWeight: 600,
-                            color: 'var(--primary)',
-                            marginTop: 4,
-                          }}
-                        >
-                          {d}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ ...card, padding: 16 }}>
-                    <LineChart
-                      points={[12, 16, 14, 22, 26, 34, 30, 44]}
-                      height={120}
-                    />
-                  </div>
-                </div>
-              </div>
-            </BrowserFrame>
-          </div>
-        </Reveal>
-      </Slide>
-
-      {/* Charts */}
-      <Slide
-        nav="Metrics"
-        notes="Net retention at 94% is the one to call out — it means the product sells itself."
-      >
-        <Reveal>
-          <div
-            className="kicker"
-            style={{ marginBottom: 12, textAlign: 'center' }}
-          >
-            The numbers
-          </div>
-          <h2
-            className="headline"
-            style={{
-              textAlign: 'center',
-              marginInline: 'auto',
-              marginBottom: 'clamp(22px,4vh,38px)',
-            }}
-          >
-            Growth you can see.
-          </h2>
-        </Reveal>
-        <Reveal>
-          <div className="cols">
+        <Heading kicker="Rumusan masalah">
+          Dua pertanyaan <span className="accent-text">penelitian.</span>
+        </Heading>
+        <div className="cols" style={{ maxWidth: 980, marginInline: 'auto' }}>
+          <Build at={1}>
             <div style={card}>
-              <div className="kicker" style={{ marginBottom: 14 }}>
-                Weekly active
+              <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
+                RM 1
               </div>
-              <div style={{ height: 150 }}>
-                <BarChart
-                  data={[
-                    { label: 'W1', value: 30 },
-                    { label: 'W2', value: 44 },
-                    { label: 'W3', value: 39 },
-                    { label: 'W4', value: 61 },
-                    { label: 'W5', value: 78 },
-                    { label: 'W6', value: 96 },
-                  ]}
-                  height={150}
-                />
-              </div>
+              <p className="lead" style={{ margin: 0, color: 'var(--fg)' }}>
+                Teknik penerjemahan apa saja yang digunakan untuk Nominalkomposita, dan teknik mana
+                yang paling dominan?
+              </p>
             </div>
+          </Build>
+          <Build at={2}>
             <div style={card}>
-              <div className="kicker" style={{ marginBottom: 14 }}>
-                Revenue
+              <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
+                RM 2
               </div>
-              <LineChart
-                points={[12, 16, 14, 22, 26, 34, 30, 44]}
-                height={150}
-              />
+              <p className="lead" style={{ margin: 0, color: 'var(--fg)' }}>
+                Bagaimana implikasi teknik-teknik tersebut terhadap makna Nominalkomposita dalam
+                terjemahan bahasa Indonesia?
+              </p>
             </div>
-            <div
-              style={{
-                ...card,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <DonutChart value={94} label="Net retention" size={150} />
-            </div>
-          </div>
-        </Reveal>
-      </Slide>
-
-      {/* Data table */}
-      <Slide
-        nav="Unit economics"
-        notes="Walk the growth column top to bottom — APAC is the story."
-      >
-        <Reveal>
-          <div
-            className="kicker"
-            style={{ marginBottom: 12, textAlign: 'center' }}
-          >
-            Unit economics
-          </div>
-          <h2
-            className="headline"
-            style={{
-              textAlign: 'center',
-              marginInline: 'auto',
-              marginBottom: 'clamp(22px,4vh,38px)',
-            }}
-          >
-            Growth, by region.
-          </h2>
-        </Reveal>
-        <Reveal>
-          <Table
-            columns={['Region', 'ARR', 'Growth', 'NRR', 'Payback']}
-            rows={[
-              ['North America', '$2.4M', '+38%', '124%', '11 mo'],
-              ['Europe', '$1.1M', '+52%', '118%', '13 mo'],
-              ['APAC', '$0.7M', '+61%', '109%', '14 mo'],
-              ['LATAM', '$0.2M', '+44%', '104%', '16 mo'],
-            ]}
-            highlightCol={2}
-            caption="Company data, FY25 · NRR = net revenue retention"
-          />
-        </Reveal>
-      </Slide>
-
-      {/* Timeline */}
-      <Slide
-        nav="Roadmap"
-        notes="Anchor on 'Now'. The AI insights line is what gets people excited — dwell there."
-      >
-        <Reveal>
-          <div
-            className="kicker"
-            style={{ marginBottom: 12, textAlign: 'center' }}
-          >
-            Where we're going
-          </div>
-          <h2
-            className="headline"
-            style={{
-              textAlign: 'center',
-              marginInline: 'auto',
-              marginBottom: 'clamp(20px,3vh,32px)',
-            }}
-          >
-            The roadmap.
-          </h2>
-        </Reveal>
-        <div style={{ maxWidth: 560, marginInline: 'auto' }}>
-          <Timeline
-            items={[
-              {
-                time: 'Shipped',
-                title: 'Realtime core',
-                body: 'Sub-second metrics across 28 regions.',
-              },
-              {
-                time: 'Now',
-                title: 'AI insights',
-                body: 'Plain-English answers from your data.',
-              },
-              {
-                time: 'Next',
-                title: 'Enterprise',
-                body: 'SSO, audit logs, and on-prem.',
-              },
-            ]}
-          />
+          </Build>
         </div>
       </Slide>
 
-      {/* Pricing */}
-      <Pricing
-        nav="Pricing"
-        notes="Anchor on Pro. Enterprise exists so Pro looks reasonable — don't oversell it."
-        kicker="Pricing"
-        title="Simple, honest plans."
-        tiers={[
+      {/* 6 — Landasan: struktur komposita */}
+      <Split
+        flip
+        nav="Struktur komposita"
+        notes="Bestimmungswort di depan mempersempit makna; Grundwort di belakang menentukan kelas kata dan genus. Zeitgötze maskulin karena Götze maskulin, walau Zeit feminin. Hubungan makna antarkonstituen tidak ditandai secara formal: Seiltänzer (tempat), Messerstich (alat), Giftbecher (isi), Werthurtheil (objek). Batasan: hanya Determinativkompositum N+N, ditulis serangkai, Bestimmungswort nomina apelatif."
+        kicker="Landasan teori"
+        title={
+          <>
+            Grundwort <span className="accent-text">menentukan</span> segalanya.
+          </>
+        }
+        body="Nominalkomposita = Bestimmungswort + Grundwort (Donalies, 2004; Fleischer & Barz, 2012). Genus dan kelas kata mengikuti Grundwort; hubungan makna antarkonstituen harus disimpulkan dari konteks."
+        media={
+          <>
+            <div style={panel} />
+            <div style={{ position: 'relative', padding: 'clamp(20px,4vw,48px)', width: '100%' }}>
+              <KompositaVisual
+                parts={[
+                  { word: 'Zeit', gloss: 'waktu, zaman', role: 'Bestimmungswort', genus: 'die' },
+                  { word: 'Götze', gloss: 'berhala', role: 'Grundwort', genus: 'der', head: true },
+                ]}
+                result="Zeitgötze"
+                genus="der"
+                target="berhala zaman"
+                targetNote="contoh dari Götzen-Dämmerung"
+              />
+            </div>
+          </>
+        }
+      />
+
+      {/* 7 — Patokan operasional */}
+      <Steps
+        nav="Patokan operasional"
+        notes="Molina & Albir tidak menyediakan uji formal untuk membedakan kalke, harfiah, dan padanan lazim ketika konstituen diterjemahkan satu per satu. Maka disusun patokan yang diterapkan berurutan. Setiap datum diberi satu teknik utama; pergeseran sekunder dicatat di analisis."
+        kicker="Patokan operasional"
+        title="Kalke, harfiah, atau padanan lazim?"
+        items={[
           {
-            name: 'Starter',
-            price: '$29',
-            period: '/mo',
-            blurb: 'For small teams getting live.',
-            features: [
-              '1M events / month',
-              'Realtime dashboards',
-              'Community support',
-            ],
+            title: 'Tercatat di KBBI?',
+            body: 'Ya → padanan lazim. Contoh: Zahnbürste → sikat gigi.',
           },
           {
-            name: 'Pro',
-            price: '$79',
-            period: '/mo',
-            blurb: 'Everything growing teams need.',
-            features: [
-              '10M events / month',
-              'AI insights + alerts',
-              'Self-host option',
-              'Priority support',
-            ],
-            highlight: true,
+            title: 'Frasa bebas yang wajar?',
+            body: 'Ya → penerjemahan harfiah. Contoh: Zimmerwand → dinding kamar.',
           },
           {
-            name: 'Enterprise',
-            price: 'Custom',
-            blurb: 'Scale, compliance, and control.',
-            features: [
-              'Unlimited events',
-              'SSO + audit logs',
-              'On-prem deploy',
-              'Dedicated CSM',
-            ],
+            title: 'Satuan baru bagi konsep BSu?',
+            body: 'Ya → kalke. Contoh: Götzen-Dämmerung → Senjakala Berhala.',
+          },
+          {
+            title: 'Ada yang berubah?',
+            body: 'Konstituen hilang, makna ditambah, sudut pandang atau kelas kata berubah → teknik lain.',
           },
         ]}
       />
 
-      {/* Spotlight principles */}
+      {/* 8 — Kategori makna */}
       <Slide
-        nav="Principles"
-        notes="Hover the cards for the glow if presenting on a screen. Keep this one short."
+        nav="Kategori makna"
+        notes="Empat kategori operasional yang dirumuskan dari Molina & Albir (2002) dan Baker (1992). Kategori ditentukan dari hubungan makna BSu dalam konteks dengan padanannya — teknik yang sama bisa menghasilkan kategori berbeda. Ilustrasi disusun peneliti, bukan data."
       >
+        <Heading kicker="Implikasi terhadap makna">
+          Empat kategori <span className="accent-text">makna.</span>
+        </Heading>
         <Reveal>
-          <div
-            className="kicker"
-            style={{ marginBottom: 12, textAlign: 'center' }}
-          >
-            What we believe
-          </div>
-          <h2
-            className="headline"
-            style={{
-              textAlign: 'center',
-              marginInline: 'auto',
-              marginBottom: 'clamp(22px,4vh,38px)',
-            }}
-          >
-            Three principles.
-          </h2>
-        </Reveal>
-        <Reveal>
-          <div className="cols">
-            {[
-              {
-                k: '01',
-                t: 'Fast by default',
-                d: 'Speed is a feature. Everything is realtime.',
-              },
-              {
-                k: '02',
-                t: 'Yours to own',
-                d: 'Your data, your infra, no lock-in.',
-              },
-              {
-                k: '03',
-                t: 'Honest pricing',
-                d: 'No per-seat tax. Scale without surprises.',
-              },
-            ].map((p) => (
-              <SpotlightCard key={p.k}>
-                <div
-                  className="kicker accent-text"
-                  style={{ marginBottom: 12 }}
-                >
-                  {p.k}
-                </div>
-                <h3
-                  style={{
-                    fontSize: 'clamp(20px,2.2vw,26px)',
-                    fontWeight: 600,
-                    margin: '0 0 8px',
-                  }}
-                >
-                  {p.t}
-                </h3>
-                <p
-                  style={{
-                    color: 'var(--fg-muted)',
-                    fontSize: 15,
-                    margin: 0,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {p.d}
-                </p>
-              </SpotlightCard>
-            ))}
+          <div style={{ maxWidth: 920, marginInline: 'auto' }}>
+            <Table
+              columns={['Kategori', 'Hubungan makna BSu–BSa', 'Ilustrasi']}
+              rows={[
+                ['Utuh', 'Makna sama dalam konteksnya', 'Zahnbürste → sikat gigi'],
+                ['Menyempit', 'Padanan lebih khusus (hiponim)', 'Haustier → kucing'],
+                ['Meluas', 'Padanan lebih umum; ciri pembeda hilang', 'Apfelbaum → pohon'],
+                ['Bergeser', 'Arah makna berubah / muatan kiasan hilang', 'Sündenbock → kambing dosa'],
+              ]}
+              caption="Dirumuskan peneliti berdasarkan Molina & Albir (2002) dan Baker (1992). Ilustrasi bukan data penelitian."
+            />
           </div>
         </Reveal>
       </Slide>
 
-      {/* Accordion — FAQ */}
+      {/* 9 — Metode */}
+      <Split
+        nav="Metode"
+        notes="Kualitatif deskriptif, library research. Frekuensi hanya alat bantu menggambarkan kecenderungan. BSu: Project Gutenberg #7203 (ejaan abad ke-19 dipertahankan). BSa: Senjakala Berhala hlm. 23–44. Sampel jenuh: semua komposita yang memenuhi kriteria diambil, termasuk kemunculan ulang. Keabsahan: ketekunan, triangulasi sumber & teori (Duden, DWDS, KBBI), analisis kasus batas, bahan referensi."
+        kicker="Metode penelitian"
+        title={
+          <>
+            Kualitatif deskriptif, <span className="accent-text">kepustakaan.</span>
+          </>
+        }
+        body="Korpus: Vorwort, Sprüche und Pfeile, dan Das Problem des Sokrates beserta padanannya (hlm. 23–44). Data diambil dengan sampel jenuh melalui metode simak dan teknik catat (Sudaryanto, 2015)."
+        media={
+          <>
+            <div style={panel} />
+            <div
+              style={{
+                position: 'relative',
+                padding: 'clamp(20px,4vw,48px)',
+                width: '100%',
+                maxWidth: 520,
+              }}
+            >
+              <Timeline
+                items={[
+                  { time: 'Langkah 1', title: 'Penjaringan', body: 'Simak & catat, dicocokkan dengan semua kata berhuruf kapital.' },
+                  { time: 'Langkah 2', title: 'Audit morfologis', body: 'Lolos, borderline, atau gugur; kasus batas lewat DWDS & Duden.' },
+                  { time: 'Langkah 3', title: 'Klasifikasi teknik', body: 'Molina & Albir (2002) + patokan operasional.' },
+                  { time: 'Langkah 4', title: 'Analisis makna', body: 'Duden & DWDS ↔ KBBI dalam konteks kalimat.' },
+                  { time: 'Analisis', title: 'Model interaktif', body: 'Miles & Huberman (1994).' },
+                ]}
+              />
+            </div>
+          </>
+        }
+      />
+
+      {/* 10 — Section: Hasil */}
+      <Section
+        nav="Hasil"
+        notes="Masuk ke inti: hasil penelitian dan pembahasan (Bab IV)."
+        n={4}
+        kicker="Bab IV"
+        title={
+          <>
+            Hasil & <span className="accent-text">pembahasan.</span>
+          </>
+        }
+      />
+
+      {/* 11 — Audit korpus */}
+      <StatGrid
+        nav="Audit korpus"
+        notes="76 satuan terjaring. 43 gugur: stem verba (8, misalnya Werkzeug, Sitzfleisch), adjektiva (4), preposisi/partikel/adverbia (13), pronomina (3), nama diri (Hanswurst ×2), adjektiva dinominalkan (1), kata turunan (Schauspieler ×2), bertanda hubung (10, semuanya di Das Problem des Sokrates). 33 lolos (26 jenis kata). 2 tidak diterjemahkan: Sonnenfleck dan Hausthür. Jadi 31 data, 24 jenis kata."
+        kicker="Penjaringan & audit korpus"
+        title="Dari 76 satuan menjadi 31 data."
+        stats={[
+          { value: <CountUp to={76} />, label: 'Satuan terjaring', caption: 'Kata majemuk berunsur akhir nomina' },
+          { value: <CountUp to={33} />, label: 'Lolos audit', caption: 'N+N serangkai; 43 gugur' },
+          { value: <CountUp to={31} />, label: 'Data penelitian', caption: '24 jenis kata; 2 tidak diterjemahkan' },
+        ]}
+      />
+
+      {/* 12 — Sebaran teknik */}
+      <Split
+        flip
+        nav="Sebaran teknik"
+        notes="31 data, 9 dari 18 teknik. Padanan lazim dan generalisasi masing-masing 6 (19,4%), kalke dan modulasi masing-masing 5 (16,1%). Per jenis kata: padanan lazim & modulasi 5 jenis, kalke hanya 2 karena 4 datanya Gewissensfrage. Sembilan teknik tidak muncul sebagai teknik utama, termasuk peminjaman dan amplifikasi."
+        kicker="Temuan RM 1"
+        title={
+          <>
+            Sembilan teknik, <span className="accent-text">tanpa satu yang dominan.</span>
+          </>
+        }
+        body="Padanan lazim dan generalisasi sama-sama paling sering (6 data), disusul kalke dan modulasi (5 data). Peminjaman tidak ditemukan sama sekali."
+        media={
+          <>
+            <div style={panel} />
+            <div
+              style={{
+                position: 'relative',
+                padding: 'clamp(20px,4vw,48px)',
+                width: '100%',
+                maxWidth: 620,
+              }}
+            >
+              <HBarChart
+                data={[
+                  { label: 'Padanan lazim', value: 6, hint: '19,4%', highlight: true },
+                  { label: 'Generalisasi', value: 6, hint: '19,4%', highlight: true },
+                  { label: 'Kalke', value: 5, hint: '16,1%' },
+                  { label: 'Modulasi', value: 5, hint: '16,1%' },
+                  { label: 'Harfiah', value: 4, hint: '12,9%' },
+                  { label: 'Amplifikasi linguistik', value: 2, hint: '6,5%' },
+                  { label: 'Transposisi', value: 1, hint: '3,2%' },
+                  { label: 'Deskripsi', value: 1, hint: '3,2%' },
+                  { label: 'Reduksi', value: 1, hint: '3,2%' },
+                ]}
+              />
+              <div className="foot" style={{ marginTop: 16, textAlign: 'center' }}>
+                n = 31 data · Tabel 4.6
+              </div>
+            </div>
+          </>
+        }
+      />
+
+      {/* 13 — Tiga kelompok perlakuan konstituen */}
       <Slide
-        nav="FAQ"
-        notes="Only open the questions they actually ask. Skip the rest to keep momentum."
+        nav="Pola teknik"
+        notes="Pembahasan: pola lebih jelas jika teknik dikelompokkan menurut perlakuan terhadap konstituen. Kelompok 3 hampir separuh data (14) dan separuh jenis kata (12 dari 24): komposita kiasan/melekat (Seitensprung, Gewissensbiss, Rattenfänger) atau yang salah satu unsurnya bisa dilesapkan (Tageslicht, Ausnahmefall). Kata berulang diterjemahkan konsisten. Klik tab untuk berpindah kelompok."
       >
+        <Heading kicker="Pembahasan · pola teknik">
+          Tiga cara memperlakukan <span className="accent-text">konstituen.</span>
+        </Heading>
         <Reveal>
-          <div
-            className="kicker"
-            style={{ marginBottom: 12, textAlign: 'center' }}
-          >
-            Common questions
-          </div>
-          <h2
-            className="headline"
-            style={{
-              textAlign: 'center',
-              marginInline: 'auto',
-              marginBottom: 'clamp(20px,3vh,30px)',
-            }}
-          >
-            Frequently asked.
-          </h2>
-        </Reveal>
-        <Reveal>
-          <div style={{ maxWidth: 720, marginInline: 'auto' }}>
-            <Accordion
-              items={[
+          <div style={{ maxWidth: 980, marginInline: 'auto' }}>
+            <Tabs
+              tabs={[
                 {
-                  title: 'How long does setup take?',
-                  body: 'Five minutes — point Bolt Slides at your warehouse and you are live.',
+                  label: 'Dipertahankan · 11',
+                  content: (
+                    <PairList
+                      pairs={[
+                        { src: 'Gewissensfrage', tgt: 'pertanyaan nurani', tag: 'Kalke', n: 4 },
+                        { src: 'Werthurtheile', tgt: 'pertimbangan-pertimbangan nilai', tag: 'Kalke' },
+                        { src: 'Giftbecher', tgt: 'cangkir racun', tag: 'Harfiah', n: 2 },
+                        { src: 'Messerstichen', tgt: 'tusukan pisau', tag: 'Harfiah' },
+                        { src: 'Scheintugenden', tgt: 'kebajikan-kebajikan semu', tag: 'Harfiah' },
+                        { src: 'Zeitgötzen', tgt: 'berhala-berhala dari zaman ini', tag: 'Ampl. ling.' },
+                        { src: 'Ehrbegriff', tgt: 'gagasan peka mengenai kehormatan', tag: 'Ampl. ling.' },
+                      ]}
+                    />
+                  ),
                 },
                 {
-                  title: 'Can we self-host?',
-                  body: 'Yes. A Docker image and Terraform module ship with every plan.',
+                  label: 'Istilah mapan · 6',
+                  content: (
+                    <PairList
+                      pairs={[
+                        { src: 'Zahnarzt', tgt: 'dokter gigi', tag: 'Padanan lazim' },
+                        { src: 'Fragezeichen', tgt: 'tanda tanya', tag: 'Padanan lazim', n: 2 },
+                        { src: 'Kriegserklärung', tgt: 'pernyataan perang', tag: 'Padanan lazim' },
+                        { src: 'Wahlspruch', tgt: 'motto', tag: 'Padanan lazim' },
+                        { src: 'Nothlage', tgt: 'keadaan yang darurat', tag: 'Padanan lazim' },
+                      ]}
+                    />
+                  ),
                 },
                 {
-                  title: 'How is it priced?',
-                  body: 'Flat monthly, no per-seat tax — you scale without surprises.',
+                  label: 'Diubah · 14',
+                  content: (
+                    <PairList
+                      pairs={[
+                        { src: 'Tageslicht', tgt: 'terang', tag: 'Generalisasi', n: 3 },
+                        { src: 'Kunststück', tgt: 'hal', tag: 'Generalisasi' },
+                        { src: 'Seitensprung', tgt: 'petualangan', tag: 'Generalisasi' },
+                        { src: 'Streitobjekt', tgt: 'objeknya', tag: 'Generalisasi' },
+                        { src: 'Gewissensbiss', tgt: 'penyesalan nurani', tag: 'Modulasi' },
+                        { src: 'Rattenfänger', tgt: 'penyuling', tag: 'Modulasi' },
+                        { src: 'Nothwehr', tgt: 'senjata terakhir', tag: 'Modulasi' },
+                        { src: 'Kriegsschule', tgt: 'sekolah militer', tag: 'Modulasi' },
+                        { src: 'Augenblick', tgt: '(setiap) kali', tag: 'Modulasi' },
+                        { src: 'Glücksfall', tgt: 'kesempatan yang menggembirakan', tag: 'Transposisi' },
+                        { src: 'Seiltänzer', tgt: 'pemain akrobat tambang', tag: 'Deskripsi' },
+                        { src: 'Ausnahmefall', tgt: 'perkecualian', tag: 'Reduksi' },
+                      ]}
+                    />
+                  ),
                 },
               ]}
             />
@@ -910,66 +445,232 @@ track('signup', {
         </Reveal>
       </Slide>
 
-      {/* Team */}
-      <Team
-        nav="Team"
-        notes="One line per person. The point is the operator pedigree, not the bios."
-        kicker="The team"
-        title="Built by operators."
-        people={[
-          { name: 'Dana Kim', role: 'CEO · ex-Stripe' },
-          { name: 'Ade Obi', role: 'CTO · ex-Datadog' },
-          { name: 'Mara Silva', role: 'Design · ex-Linear' },
-          { name: 'Jon Park', role: 'GTM · ex-Snowflake' },
-        ]}
+      {/* 14 — BigNumber: makna utuh */}
+      <BigNumber
+        nav="Makna utuh"
+        notes="Temuan RM 2: 23 dari 31 data (74,2%) mempertahankan makna secara utuh. Meluas 6 (19,4%), bergeser 2 (6,5%), menyempit 0."
+        kicker="Temuan RM 2"
+        value={<CountUp to={74.2} decimals={1} suffix="%" locale="id-ID" />}
+        caption="Nominalkomposita tetap membawa makna yang utuh dalam terjemahan: 23 dari 31 data."
+        foot="Meluas 6 data · bergeser 2 data · menyempit 0 data (Tabel 4.7)"
       />
 
-      {/* Logos */}
+      {/* 15 — Teknik × makna */}
       <Slide
-        center
-        nav="Customers"
-        notes="Name-drop the two logos most relevant to this audience."
+        nav="Teknik × makna"
+        notes="Semua data kelompok 1 dan 2 utuh. Kedelapan data yang maknanya berubah semuanya di kelompok 3. Generalisasi selalu meluaskan (Kunststück, Seitensprung, Streitobjekt, Tageslicht ×3). Modulasi menggeser hanya pada dua data berkonsep khusus. Tapi mengubah konstituen tidak selalu mengubah makna: transposisi, deskripsi, reduksi, dan 3 modulasi tetap utuh."
       >
+        <Heading kicker="Pembahasan · teknik dan makna">
+          Makna berubah <span className="accent-text">hanya</span> jika konstituen diubah.
+        </Heading>
         <Reveal>
-          <div className="kicker" style={{ marginBottom: 28 }}>
-            Trusted by teams everywhere
+          <div style={{ maxWidth: 860, marginInline: 'auto' }}>
+            <Table
+              columns={[
+                'Teknik',
+                { label: 'Utuh', align: 'right' },
+                { label: 'Meluas', align: 'right' },
+                { label: 'Bergeser', align: 'right' },
+              ]}
+              rows={[
+                ['Kalke · harfiah · ampl. linguistik', 11, '–', '–'],
+                ['Padanan lazim', 6, '–', '–'],
+                ['Transposisi · deskripsi · reduksi', 3, '–', '–'],
+                ['Modulasi', 3, '–', 2],
+                ['Generalisasi', '–', 6, '–'],
+                ['Jumlah', 23, 6, 2],
+              ]}
+              highlightRow={4}
+              caption="Diringkas dari Tabel 4.8 (n = 31)."
+            />
           </div>
         </Reveal>
-        <Marquee
-          items={[
-            'Northwind',
-            'Globex',
-            'Initech',
-            'Umbra',
-            'Hooli',
-            'Vehement',
-            'Soylent',
-          ]}
-        />
       </Slide>
 
-      {/* Quote */}
-      <Quote
-        nav="Quote"
-        notes="Read it slowly, then stay silent for a second. Let it land."
-        text="We replaced four tools with Bolt Slides and never looked back."
-        name="Dana Kim"
-        role="VP Engineering, Acme"
-      />
-
-      {/* CTA */}
+      {/* 16 — Satu teknik, dua akibat */}
       <Slide
         center
-        nav="Close"
-        notes="Make the ask explicitly. Leave the contact details on screen while you take questions."
+        nav="Satu teknik, dua akibat"
+        notes="Keduanya modulasi. Gewissensbiss: citra fisik 'gigitan' diganti keadaan batin, sudut pandang dari sebab ke akibat, tapi makna leksikal tetap (DWDS: rasa bersalah). Rattenfänger: tokoh legenda Hameln + makna kiasan 'penggoda rakyat'; penyuling hanya mengambil serulingnya, dan bisa dibaca 'orang yang menyuling'. Pesan: nama teknik saja tidak cukup untuk menilai akibatnya terhadap makna."
+      >
+        <Heading kicker="Pembahasan · modulasi">
+          Satu teknik, <span className="accent-text">dua akibat.</span>
+        </Heading>
+        <div className="cols" style={{ maxWidth: 980, marginInline: 'auto' }}>
+          <Build at={1}>
+            <div style={card}>
+              <div className="kicker" style={{ marginBottom: 10 }}>
+                Aforisme 10 · hlm. 27
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-head)',
+                  fontSize: 'clamp(24px,2.6vw,34px)',
+                  fontWeight: 600,
+                }}
+              >
+                <em>Gewissensbiss</em> → penyesalan nurani
+              </div>
+              <p style={{ color: 'var(--fg-muted)', margin: '10px 0 14px' }}>
+                ‘Gigitan’ diganti keadaan batin yang ditimbulkannya: sudut pandang berpindah dari
+                sebab ke akibat.
+              </p>
+              <span className="kicker" style={{ color: 'var(--primary)' }}>
+                Makna utuh
+              </span>
+            </div>
+          </Build>
+          <Build at={2}>
+            <div
+              style={{
+                ...card,
+                borderColor: 'color-mix(in srgb, var(--primary) 45%, transparent)',
+              }}
+            >
+              <div className="kicker" style={{ marginBottom: 10 }}>
+                Vorwort · hlm. 24
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-head)',
+                  fontSize: 'clamp(24px,2.6vw,34px)',
+                  fontWeight: 600,
+                }}
+              >
+                <em>Rattenfänger</em> → penyuling
+              </div>
+              <p style={{ color: 'var(--fg-muted)', margin: '10px 0 14px' }}>
+                Legenda Hameln dan makna kiasan ‘penggoda rakyat’ hilang; yang tersisa hanya
+                serulingnya.
+              </p>
+              <span className="kicker" style={{ color: 'var(--primary)' }}>
+                Makna bergeser
+              </span>
+            </div>
+          </Build>
+        </div>
+      </Slide>
+
+      {/* 17 — Perbandingan dengan penelitian terdahulu */}
+      <Slide
+        nav="Penelitian terdahulu"
+        notes="Teknik dominan perlu dibaca bersama cara unit analisis dipilih. Kalimat berita → amplifikasi/transposisi; kata budaya → peminjaman; Nominalkomposita (unit leksikal yang konstituennya bisa diterjemahkan satu per satu) → kalke dan harfiah tersedia, peminjaman tidak muncul. Bahkan Rattenfänger, yang paling terikat tradisi Jerman, dimodulasi, bukan dipinjam."
+      >
+        <Heading kicker="Pembahasan · penelitian terdahulu">
+          Unit analisis membentuk <span className="accent-text">teknik dominan.</span>
+        </Heading>
+        <Reveal>
+          <div style={{ maxWidth: 940, marginInline: 'auto' }}>
+            <Table
+              columns={['Penelitian', 'Unit analisis', 'Teknik yang menonjol']}
+              rows={[
+                ['Anjani & Rahman (2022)', 'Judul & kalimat berita DW', 'Amplifikasi 24,8%; kalke 1 dari 181'],
+                ['Azizah (2019)', 'Kata budaya, Das Parfum', 'Peminjaman (103 dari 150)'],
+                ['Rohmah & Parnaningroem (2024)', 'Kata budaya, majalah Nadi', 'Peminjaman murni'],
+                ['Penelitian ini', 'Nominalkomposita N+N', 'Padanan lazim & generalisasi; kalke 5 dari 31; peminjaman 0'],
+              ]}
+              highlightRow={3}
+              caption="Semua memakai kerangka Molina & Albir (2002)."
+            />
+          </div>
+        </Reveal>
+      </Slide>
+
+      {/* 18 — Simpulan */}
+      <Slide
+        center
+        nav="Simpulan"
+        notes="Jawab kedua RM secara ringkas. RM1: 9 teknik, tidak ada yang mendominasi; sedikit lebih dari separuh data mempertahankan konstituen atau memakai istilah mapan. RM2: sebagian besar utuh; perubahan hanya pada teknik yang mengubah konstituen."
+      >
+        <Heading kicker="Bab V · simpulan">
+          Jawaban atas <span className="accent-text">dua pertanyaan.</span>
+        </Heading>
+        <div className="cols" style={{ maxWidth: 1000, marginInline: 'auto' }}>
+          <Build at={1}>
+            <div style={card}>
+              <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
+                RM 1 · teknik
+              </div>
+              <p style={{ margin: 0, fontSize: 'clamp(16px,1.5vw,20px)', lineHeight: 1.5 }}>
+                Sembilan teknik dipakai dan <strong>tidak ada yang mendominasi</strong>. Padanan
+                lazim dan generalisasi paling sering, disusul kalke dan modulasi. Kata berulang
+                diterjemahkan secara konsisten.
+              </p>
+            </div>
+          </Build>
+          <Build at={2}>
+            <div style={card}>
+              <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
+                RM 2 · makna
+              </div>
+              <p style={{ margin: 0, fontSize: 'clamp(16px,1.5vw,20px)', lineHeight: 1.5 }}>
+                Sebagian besar makna <strong>utuh</strong>. Generalisasi selalu meluaskan makna;
+                modulasi menggeser makna pada konsep khusus (<em>Rattenfänger</em>,{' '}
+                <em>Nothwehr</em>). Tidak ada makna yang menyempit.
+              </p>
+            </div>
+          </Build>
+        </div>
+      </Slide>
+
+      {/* 19 — Keterbatasan & saran */}
+      <Slide
+        nav="Keterbatasan & saran"
+        notes="Keterbatasan paling mendasar: terjemahan tidak langsung, jadi teknik tidak bisa dibaca sebagai keputusan penerjemah Indonesia. Saran untuk penerbit: bandingkan langsung dengan teks Jerman — komposita yang tidak diterjemahkan, aforisme 19, dugaan salah cetak 'Dan sekolah militer kehidupan', ejaan tanda tanya / tanda-tanya dan motto."
+      >
+        <Heading kicker="Keterbatasan & saran">
+          Yang bisa <span className="accent-text">dilanjutkan.</span>
+        </Heading>
+        <Reveal>
+          <div style={{ maxWidth: 820, marginInline: 'auto' }}>
+            <Accordion
+              single
+              defaultOpen={0}
+              items={[
+                {
+                  title: 'Terjemahan tidak langsung',
+                  body: 'Senjakala Berhala dibuat dari edisi Inggris Hollingdale. Saran: bandingkan teks Jerman, Inggris, dan Indonesia secara sistematis agar pergeseran tiap tahap dapat dipisahkan.',
+                },
+                {
+                  title: 'Cakupan korpus',
+                  body: 'Hanya tiga bagian pertama (31 data). Saran: perluas ke bagian lain Götzen-Dämmerung.',
+                },
+                {
+                  title: 'Kriteria data yang ketat',
+                  body: 'Komposita bertanda hubung (mis. Verfalls-Symptome) dan pola stem verba + nomina belum dikaji. Saran: kaji tersendiri.',
+                },
+                {
+                  title: 'Satu penilai',
+                  body: 'Klasifikasi dan kategori makna ditetapkan peneliti sendiri. Saran: libatkan penilai kedua.',
+                },
+                {
+                  title: 'Untuk penerbit & penerjemah',
+                  body: 'Periksa komposita yang tidak diterjemahkan, keterangan yang berubah maksud pada aforisme 19, dugaan salah cetak, dan ejaan yang belum konsisten.',
+                },
+              ]}
+            />
+          </div>
+        </Reveal>
+      </Slide>
+
+      {/* 20 — Penutup */}
+      <Slide
+        center
+        nav="Penutup"
+        notes="Tutup dengan terima kasih, lalu persilakan penguji memberi pertanyaan dan masukan."
       >
         <Reveal>
-          <h2 className="display" style={{ fontSize: 'clamp(40px,7vw,96px)' }}>
-            <span className="accent-text">Let's talk.</span>
+          <div className="kicker" style={{ marginBottom: 16 }}>
+            Seminar Hasil · 2026
+          </div>
+          <h2 className="display" style={{ marginInline: 'auto' }}>
+            Terima <span className="accent-text">kasih.</span>
           </h2>
-          <p className="subhead" style={{ marginTop: 16 }}>
-            hello@bolt.new
+          <p className="subhead" style={{ marginTop: 20 }}>
+            Vielen Dank. Saya persilakan pertanyaan dan masukan.
           </p>
+          <div className="rule" style={{ margin: '28px auto 16px' }} />
+          <p className="foot">M. Iqbal Al Batmi Nur Haikal · 22020504056 · Sastra Jerman UNESA</p>
         </Reveal>
       </Slide>
     </Deck>

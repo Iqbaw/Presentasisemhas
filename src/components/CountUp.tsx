@@ -12,6 +12,7 @@ export default function CountUp({
   decimals = 0,
   prefix = '',
   suffix = '',
+  locale = 'en-US',
 }: {
   to: number;
   from?: number;
@@ -19,6 +20,7 @@ export default function CountUp({
   decimals?: number;
   prefix?: string;
   suffix?: string;
+  locale?: string;
 }) {
   const { isStatic } = useDeck();
   const ref = useRef<HTMLSpanElement>(null);
@@ -65,7 +67,7 @@ export default function CountUp({
 
   const text =
     prefix +
-    val.toLocaleString('en-US', {
+    val.toLocaleString(locale, {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
     }) +
