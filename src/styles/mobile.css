@@ -1,92 +1,84 @@
 /* ===================================================================
-   MOBILE LAYER — page-turn animation + phone layout for this deck.
-   Kept in its own file so base.css (engine styles) stays untouched.
-   Classes pt-* are set by src/components/PageTurn.tsx on touch screens.
+   MOBILE LAYER — kept in its own file so base.css (engine styles) stays
+   untouched.
+   1. The page-turn "book" drawn by src/components/PageTurn.tsx
+   2. Touch screens: all builds visible, calm background, pan-y only
+   3. Phone layout: nothing clipped (slides scroll if they must), readable
+      type sizes
    =================================================================== */
 
-/* ── Book page-turn ─────────────────────────────────────────────── */
-.slide-stage.pt-leaf,
-.slide-stage.pt-under {
-  background: var(--bg); /* pages must be opaque paper while they overlap */
+/* ── 1. Page-turn book ─────────────────────────────────────────── */
+.pt-book {
+  position: fixed;
+  z-index: 40; /* above the slide, below the dock / language switch */
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  contain: strict;
 }
-.slide-stage.pt-under {
-  animation: none;
+.pt-book.on {
+  visibility: visible;
 }
-.slide-stage.pt-leaf {
-  z-index: 4;
-  transform-origin: 0% 50%; /* the spine is the left edge */
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform;
+.pt-book.fade {
+  opacity: 0;
+  transition: opacity 160ms ease;
 }
-.slide-stage.pt-out {
-  animation: pt-out 640ms cubic-bezier(0.45, 0.05, 0.2, 1) both;
+.pt-page {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  background: var(--bg);
 }
-.slide-stage.pt-in {
-  animation: pt-in 640ms cubic-bezier(0.3, 0.1, 0.2, 1) both;
-}
-@keyframes pt-out {
-  from {
-    transform: perspective(1600px) rotateY(0deg);
-  }
-  to {
-    transform: perspective(1600px) rotateY(-96deg);
-  }
-}
-@keyframes pt-in {
-  from {
-    transform: perspective(1600px) rotateY(-96deg);
-  }
-  to {
-    transform: perspective(1600px) rotateY(0deg);
-  }
-}
-
-/* shading: the lifting page darkens toward its free edge, and it casts a
-   soft shadow on the page underneath near the spine */
-.slide-stage.pt-leaf::after,
-.slide-stage.pt-under::after {
-  content: '';
+.pt-fill {
   position: absolute;
   inset: 0;
-  z-index: 60;
+}
+.pt-clip,
+.pt-clip-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.pt-clip {
+  overflow: hidden;
+}
+/* the flap = the back of the turned paper: paper tone over the mirrored
+   print (a faint show-through), a sheen across it and a soft drop shadow */
+.pt-flap {
+  transform-origin: 0 0;
+  will-change: transform;
+  box-shadow: 0 0 28px rgba(40, 20, 10, 0.24), 0 0 2px rgba(40, 20, 10, 0.2);
+}
+.pt-paper {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0.9;
+}
+.pt-band {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px;
+  transform-origin: 0 0;
   pointer-events: none;
+  will-change: transform, opacity;
 }
-.slide-stage.pt-leaf::after {
+.pt-cast {
+  opacity: 0;
+  background: linear-gradient(to right, rgba(40, 20, 10, 0.34), rgba(40, 20, 10, 0));
+}
+.pt-sheen {
   background: linear-gradient(
-    to left,
-    rgba(60, 30, 15, 0.3),
-    rgba(60, 30, 15, 0.06) 45%,
-    rgba(60, 30, 15, 0) 70%
+    to right,
+    rgba(40, 20, 10, 0.26) 0%,
+    rgba(40, 20, 10, 0.08) 26%,
+    rgba(255, 250, 240, 0) 58%,
+    rgba(255, 250, 240, 0.34) 100%
   );
-}
-.slide-stage.pt-under::after {
-  background: linear-gradient(to right, rgba(60, 30, 15, 0.22), rgba(60, 30, 15, 0) 40%);
-}
-.slide-stage.pt-out::after {
-  animation: pt-fade-in 640ms ease-in both;
-}
-.slide-stage.pt-in::after {
-  animation: pt-fade-out 640ms ease-out both;
-}
-.pt-turning .slide-stage.pt-under:not(.pt-leaf)::after {
-  animation: pt-fade-out 640ms ease-out both;
-}
-@keyframes pt-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes pt-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
 }
 
 /* one-time swipe hint */
@@ -122,107 +114,246 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .slide-stage.pt-leaf,
-  .slide-stage.pt-leaf::after,
-  .slide-stage.pt-under::after,
-  .pt-hint {
-    animation: none !important;
+/* "scroll ↓" cue for slides taller than the phone screen */
+.scroll-cue {
+  position: fixed;
+  left: 50%;
+  bottom: 112px;
+  z-index: 60;
+  transform: translateX(-50%);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font: 600 11px/1 var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border: 1px solid var(--hair);
+  box-shadow: 0 6px 18px -8px rgba(40, 20, 10, 0.35);
+  pointer-events: none;
+  animation: cue-bob 1.6s ease-in-out infinite;
+}
+@keyframes cue-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 3px);
   }
 }
 
-/* ── Phone layout ───────────────────────────────────────────────── */
+/* ── 2. Touch screens ──────────────────────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* reading on a phone: every build is shown at once (the presenter's
+     laptop keeps click-by-click builds) */
+  .bld {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    pointer-events: auto !important;
+  }
+  /* a still background, so the static page under the fold matches exactly */
+  .slide::before {
+    animation: none;
+  }
+  /* horizontal drags belong to the page turn, vertical ones scroll */
+  .deck {
+    touch-action: pan-y;
+  }
+}
+
+/* ── 3. Phone layout ───────────────────────────────────────────── */
 @media (max-width: 640px) {
-  /* keep content clear of the floating dock at the bottom */
+  /* safe centering: centred when it fits, scrollable (never clipped) when
+     it doesn't; the bottom padding keeps text clear of the dock */
+  .slide {
+    padding: 22px 20px 112px;
+  }
   .slide:not(.full) {
-    padding-top: 28px;
-    padding-bottom: 104px;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
-  .split {
-    padding-bottom: 104px;
+  .slide.full {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
-  /* stacked split: the text half had ~65px of top padding — give that room
-     to the visual half instead */
-  .split-body {
-    padding: 30px 22px 10px !important;
-    gap: 10px !important;
+  .slide:not(.full) > :first-child {
+    margin-top: auto;
   }
-  .split-media > div:last-child {
-    padding: 12px 18px !important;
+  .slide:not(.full) > :last-child {
+    margin-bottom: auto;
   }
-  /* cover: long German compounds must fit 375px — size down and let the
-     browser hyphenate (html lang is set per version) */
-  h1.display {
-    font-size: clamp(28px, 8.6vw, 40px);
-    line-height: 1.08;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    overflow-wrap: break-word;
+  .slide::before {
+    /* the -15% bleed and the drift both overflow → every slide would scroll */
+    inset: 0;
+    animation: none;
   }
-  .cover-foot {
-    bottom: 120px !important;
-    padding-inline: 22px;
-  }
-  .cover-foot .foot {
-    white-space: normal;
-    overflow-wrap: anywhere;
-  }
-  .headline {
-    font-size: clamp(26px, 7.4vw, 34px);
-  }
-  .split .headline {
-    font-size: clamp(25px, 7vw, 32px) !important;
-  }
-  .lead {
-    font-size: 15.5px;
-    line-height: 1.45;
-  }
-  .display {
-    font-size: clamp(44px, 14vw, 64px);
+  .slide.center > * {
+    max-width: 100%;
+    min-width: 0;
   }
 
-  /* cards (RM, conclusion, examples) */
+  /* type scale */
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    line-height: 1.45;
+  }
+  .headline {
+    font-size: 27px;
+    line-height: 1.14;
+    max-width: 22ch;
+  }
+  .lead {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .subhead {
+    font-size: 17px;
+    line-height: 1.45;
+    max-width: 30ch;
+  }
+  .foot {
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  /* cover: the longest word must fit the column — size the title from the
+     viewport width (German "Übersetzungstechniken" ≈ 10.6em, Indonesian
+     "Nominalkomposita" ≈ 8.4em) */
+  h1.display {
+    font-size: min(40px, calc((100vw - 44px) / 10.7));
+    line-height: 1.1;
+    overflow-wrap: anywhere; /* last resort — never clip */
+  }
+  html[lang='id'] h1.display {
+    font-size: min(40px, calc((100vw - 44px) / 8.5));
+  }
+  h2.display {
+    font-size: clamp(40px, 12.5vw, 56px);
+  }
+  .cover-foot {
+    position: static !important;
+    margin-top: 30px;
+  }
+  .figure {
+    font-size: clamp(72px, 24vw, 110px);
+  }
+
+  /* stacked split: text on top, visual below, both at natural height */
+  .split {
+    height: auto !important;
+    min-height: 100%;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto 1fr !important;
+    padding-bottom: 104px;
+  }
+  .split-body {
+    padding: 26px 20px 14px !important;
+    gap: 10px !important;
+  }
+  .split .headline {
+    font-size: 26px !important;
+  }
+  .split-media {
+    /* overflow:hidden would let the grid squeeze the visual below its
+       content (min-size 0) and clip it — the slide scrolls instead */
+    overflow: visible;
+    min-height: auto;
+    min-width: 0;
+  }
+  .split-media > div:last-child {
+    padding: 18px 20px 22px !important;
+  }
+
+  /* cards (research questions, conclusion, the two examples) */
+  .cols {
+    gap: 12px;
+  }
   .cols > * > div {
     padding: 16px 18px !important;
+  }
+  .cols .lead {
+    font-size: 16px;
+  }
+  .pair-title {
+    font-size: 21px !important;
+    line-height: 1.25;
   }
 
   /* compound breakdown visual */
   .kv {
-    gap: 6px !important;
-    max-width: 380px !important;
+    gap: 8px !important;
+    max-width: 360px !important;
+  }
+  .kv-chip {
+    padding: 10px 8px !important;
+  }
+  .kv-role {
+    font-size: 9px !important;
+    letter-spacing: 0.06em !important;
+  }
+  .kv-word {
+    font-size: 19px !important;
+    overflow-wrap: anywhere;
+  }
+  .kv-result {
+    font-size: 28px !important;
+    overflow-wrap: anywhere;
   }
 
   /* horizontal bars: drop the % so the bars keep their length */
   .hb {
-    row-gap: 7px !important;
+    row-gap: 8px !important;
     column-gap: 10px !important;
   }
   .hb-hint {
     display: none;
   }
   .hb-val {
-    min-width: 1.6em !important;
+    min-width: 1.4em !important;
   }
 
-  /* translation pairs: one compact column */
+  /* translation pairs */
   .pl {
     grid-template-columns: 1fr !important;
-    gap: 3px !important;
+    gap: 4px !important;
   }
+  /* two tidy lines per pair: German word + technique / → translation */
   .pl-item {
-    padding: 4px 9px !important;
-    font-size: 12.5px !important;
+    display: grid !important;
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-areas:
+      'src n . tag'
+      'arrow tgt tgt tgt';
+    align-items: baseline;
+    gap: 0 6px !important;
+    padding: 5px 11px !important;
+    font-size: 13.5px !important;
     line-height: 1.3 !important;
-    column-gap: 6px !important;
+  }
+  .pl-src {
+    grid-area: src;
+  }
+  .pl-n {
+    grid-area: n;
+  }
+  .pl-arrow {
+    grid-area: arrow;
+  }
+  .pl-tgt {
+    grid-area: tgt;
+    min-width: 0;
   }
   .pl-tag {
-    font-size: 9px !important;
-    letter-spacing: 0.04em !important;
-  }
-  /* the 12-pair tab only fits one phone screen with a smaller headline */
-  .container:has(.pl) .headline {
-    font-size: 24px !important;
-    margin-bottom: 12px !important;
+    grid-area: tag;
+    margin-left: 0 !important;
+    font-size: 9.5px !important;
+    letter-spacing: 0.06em !important;
   }
   .tabs-bar {
     max-width: 100%;
@@ -233,29 +364,30 @@
     display: none;
   }
 
-  /* tables: let the 3–4 columns wrap instead of panning */
+  /* tables wrap instead of panning */
   .dtable table {
     min-width: 0;
   }
   .dtable th,
   .dtable td {
     white-space: normal;
-    padding: 8px 8px;
-    font-size: 13px;
+    padding: 9px 8px;
+    font-size: 13.5px;
+    line-height: 1.4;
   }
 
-  /* timeline inside the Metode split */
+  /* timeline inside the method split */
   .tl-items {
-    gap: 12px;
+    gap: 14px;
   }
   .tl-time {
-    margin-bottom: 4px;
+    margin-bottom: 5px;
   }
   .tl-content h3 {
-    font-size: 16px;
+    font-size: 16.5px;
   }
   .tl-content p {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   /* stat cards */
@@ -263,36 +395,64 @@
     gap: 10px;
   }
   .stat-card {
-    padding: 14px 18px;
+    padding: 16px 18px;
     gap: 4px;
   }
   .stat-value {
-    font-size: 36px;
+    font-size: 38px;
   }
   .stat-label {
     margin-top: 2px;
   }
 
-  /* steps */
+  /* steps: number beside the text instead of on its own row */
   .steps {
-    gap: 12px;
+    gap: 14px;
+  }
+  .step {
+    display: grid !important;
+    grid-template-columns: 36px 1fr;
+    column-gap: 12px;
+    align-items: start;
+  }
+  .step-no-row {
+    grid-row: 1 / span 3;
+    margin-bottom: 0 !important;
+  }
+  .step-no {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .step h3 {
+    font-size: 16.5px;
+  }
+  .step p {
+    font-size: 14px;
+    line-height: 1.45;
   }
 }
 
-/* short phones (iPhone SE etc.): tighten a bit more */
+/* short phones: a little tighter so most slides still fit without scrolling */
 @media (max-width: 640px) and (max-height: 700px) {
-  .kicker {
-    font-size: 10.5px;
+  .slide {
+    padding-top: 16px;
   }
-  .headline,
+  .headline {
+    font-size: 24px;
+  }
   .split .headline {
-    font-size: 24px !important;
+    font-size: 23px !important;
   }
   .lead {
-    font-size: 14.5px;
+    font-size: 15px;
   }
-  .pl-item {
-    padding: 3px 8px !important;
-    font-size: 11.5px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pt-hint,
+  .scroll-cue,
+  .pt-book.fade {
+    animation: none !important;
+    transition: none !important;
   }
 }

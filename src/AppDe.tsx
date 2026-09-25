@@ -118,7 +118,7 @@ export default function AppDe() {
           Zwei <span className="accent-text">Fragen.</span>
         </Heading>
         <div className="cols" style={{ maxWidth: 980, marginInline: 'auto' }}>
-          <Build at={1}>
+          <Build at={1} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 Frage 1
@@ -128,7 +128,7 @@ export default function AppDe() {
               </p>
             </div>
           </Build>
-          <Build at={2}>
+          <Build at={2} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 Frage 2
@@ -398,12 +398,12 @@ export default function AppDe() {
           Gleiche Technik, <span className="accent-text">andere Folge.</span>
         </Heading>
         <div className="cols" style={{ maxWidth: 980, marginInline: 'auto' }}>
-          <Build at={1}>
+          <Build at={1} className="bld">
             <div style={card}>
               <div className="kicker" style={{ marginBottom: 10 }}>
                 Aphorismus 10 · S. 27
               </div>
-              <div style={pairTitle}>
+              <div className="pair-title" style={pairTitle}>
                 <em>Gewissensbiss</em> → penyesalan nurani
               </div>
               <p style={{ color: 'var(--fg-muted)', margin: '10px 0 14px' }}>
@@ -414,7 +414,7 @@ export default function AppDe() {
               </span>
             </div>
           </Build>
-          <Build at={2}>
+          <Build at={2} className="bld">
             <div
               style={{
                 ...card,
@@ -424,7 +424,7 @@ export default function AppDe() {
               <div className="kicker" style={{ marginBottom: 10 }}>
                 Vorwort · S. 24
               </div>
-              <div style={pairTitle}>
+              <div className="pair-title" style={pairTitle}>
                 <em>Rattenfänger</em> → penyuling
               </div>
               <p style={{ color: 'var(--fg-muted)', margin: '10px 0 14px' }}>
@@ -448,7 +448,7 @@ export default function AppDe() {
           Zwei <span className="accent-text">Antworten.</span>
         </Heading>
         <div className="cols" style={{ maxWidth: 1000, marginInline: 'auto' }}>
-          <Build at={1}>
+          <Build at={1} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 Frage 1 · Techniken
@@ -459,7 +459,7 @@ export default function AppDe() {
               </p>
             </div>
           </Build>
-          <Build at={2}>
+          <Build at={2} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 Frage 2 · Bedeutung
@@ -471,7 +471,7 @@ export default function AppDe() {
             </div>
           </Build>
         </div>
-        <Build at={3}>
+        <Build at={3} className="bld">
           <p className="foot" style={{ marginTop: 'clamp(18px,3vh,30px)' }}>
             Grenzen: Übersetzung über das Englische · nur drei Teile. Vorschlag: mehr Teile und den
             englischen Text analysieren.

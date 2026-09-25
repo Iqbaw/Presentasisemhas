@@ -42,6 +42,7 @@ export default function KompositaVisual({
 
   const chip = (p: KompositaPart) => (
     <div
+      className="kv-chip"
       style={{
         flex: '1 1 0',
         minWidth: 0,
@@ -56,10 +57,11 @@ export default function KompositaVisual({
         textAlign: 'center',
       }}
     >
-      <div className="kicker" style={{ fontSize: 11, marginBottom: 6 }}>
+      <div className="kicker kv-role" style={{ fontSize: 11, marginBottom: 6 }}>
         {p.role}
       </div>
       <div
+        className="kv-word"
         style={{
           fontFamily: 'var(--font-head)',
           fontSize: 'clamp(22px,2.6vw,34px)',
@@ -119,6 +121,7 @@ export default function KompositaVisual({
       <motion.div {...step(1)}>{arrow}</motion.div>
       <motion.div
         {...step(1)}
+        className="kv-result"
         style={{
           textAlign: 'center',
           fontFamily: 'var(--font-head)',

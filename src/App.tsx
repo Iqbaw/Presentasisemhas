@@ -117,7 +117,7 @@ export default function App() {
           Dua <span className="accent-text">pertanyaan.</span>
         </Heading>
         <div className="cols" style={{ maxWidth: 980, marginInline: 'auto' }}>
-          <Build at={1}>
+          <Build at={1} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 RM 1
@@ -127,7 +127,7 @@ export default function App() {
               </p>
             </div>
           </Build>
-          <Build at={2}>
+          <Build at={2} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 RM 2
@@ -396,12 +396,12 @@ export default function App() {
           Teknik sama, <span className="accent-text">akibat berbeda.</span>
         </Heading>
         <div className="cols" style={{ maxWidth: 980, marginInline: 'auto' }}>
-          <Build at={1}>
+          <Build at={1} className="bld">
             <div style={card}>
               <div className="kicker" style={{ marginBottom: 10 }}>
                 Aforisme 10 · hlm. 27
               </div>
-              <div style={pairTitle}>
+              <div className="pair-title" style={pairTitle}>
                 <em>Gewissensbiss</em> → penyesalan nurani
               </div>
               <p style={{ color: 'var(--fg-muted)', margin: '10px 0 14px' }}>
@@ -412,7 +412,7 @@ export default function App() {
               </span>
             </div>
           </Build>
-          <Build at={2}>
+          <Build at={2} className="bld">
             <div
               style={{
                 ...card,
@@ -422,7 +422,7 @@ export default function App() {
               <div className="kicker" style={{ marginBottom: 10 }}>
                 Vorwort · hlm. 24
               </div>
-              <div style={pairTitle}>
+              <div className="pair-title" style={pairTitle}>
                 <em>Rattenfänger</em> → penyuling
               </div>
               <p style={{ color: 'var(--fg-muted)', margin: '10px 0 14px' }}>
@@ -446,7 +446,7 @@ export default function App() {
           Dua <span className="accent-text">jawaban.</span>
         </Heading>
         <div className="cols" style={{ maxWidth: 1000, marginInline: 'auto' }}>
-          <Build at={1}>
+          <Build at={1} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 RM 1 · teknik
@@ -457,7 +457,7 @@ export default function App() {
               </p>
             </div>
           </Build>
-          <Build at={2}>
+          <Build at={2} className="bld">
             <div style={card}>
               <div className="kicker" style={{ color: 'var(--primary)', marginBottom: 10 }}>
                 RM 2 · makna
@@ -469,7 +469,7 @@ export default function App() {
             </div>
           </Build>
         </div>
-        <Build at={3}>
+        <Build at={3} className="bld">
           <p className="foot" style={{ marginTop: 'clamp(18px,3vh,30px)' }}>
             Keterbatasan: terjemahan melalui bahasa Inggris · hanya tiga bagian. Saran: analisis
             lebih banyak bagian dan teks bahasa Inggrisnya.

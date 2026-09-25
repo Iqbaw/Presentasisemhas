@@ -29,11 +29,19 @@ export default function PairList({ pairs }: { pairs: Pair[] }) {
             fontSize: 'clamp(14px,1.25vw,17px)',
           }}
         >
-          <em style={{ fontStyle: 'italic', color: 'var(--fg)' }}>{p.src}</em>
-          <span style={{ color: 'var(--fg-faint)' }}>→</span>
-          <span style={{ color: 'var(--fg)' }}>{p.tgt}</span>
+          <em className="pl-src" style={{ fontStyle: 'italic', color: 'var(--fg)' }}>
+            {p.src}
+          </em>
+          <span className="pl-arrow" style={{ color: 'var(--fg-faint)' }}>
+            →
+          </span>
+          <span className="pl-tgt" style={{ color: 'var(--fg)' }}>
+            {p.tgt}
+          </span>
           {p.n && p.n > 1 && (
-            <span style={{ color: 'var(--fg-faint)', fontSize: '0.85em' }}>×{p.n}</span>
+            <span className="pl-n" style={{ color: 'var(--fg-faint)', fontSize: '0.85em' }}>
+              ×{p.n}
+            </span>
           )}
           <span
             className="pl-tag"

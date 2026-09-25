@@ -28,10 +28,12 @@ export default function LangSwitch({ lang }: { lang: 'id' | 'de' }) {
       go(lang === 'de' ? 'id' : 'de');
     };
     window.addEventListener('mousemove', wake);
+    window.addEventListener('touchstart', wake, { passive: true });
     window.addEventListener('keydown', onKey);
     return () => {
       window.clearTimeout(t);
       window.removeEventListener('mousemove', wake);
+      window.removeEventListener('touchstart', wake);
       window.removeEventListener('keydown', onKey);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
