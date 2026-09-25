@@ -95,6 +95,7 @@ export default function KompositaVisual({
   return (
     <div
       ref={ref}
+      className="kv"
       style={{
         position: 'relative',
         width: '100%',

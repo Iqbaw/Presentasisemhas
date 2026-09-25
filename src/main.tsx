@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import AppDe from './AppDe';
 import LangSwitch from './components/LangSwitch';
+import PageTurn from './components/PageTurn';
 import './styles/tokens.css';
 import './styles/base.css';
+import './styles/mobile.css';
 
 /* Two versions of the same deck:
    /      → Bahasa Indonesia (App.tsx)
@@ -20,5 +22,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     {isDe ? <AppDe /> : <App />}
     <LangSwitch lang={isDe ? 'de' : 'id'} />
+    <PageTurn />
   </React.StrictMode>
 );

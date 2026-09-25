@@ -5,6 +5,7 @@ export type Pair = { src: string; tgt: string; tag: string; n?: number };
 export default function PairList({ pairs }: { pairs: Pair[] }) {
   return (
     <div
+      className="pl"
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))',
@@ -15,6 +16,7 @@ export default function PairList({ pairs }: { pairs: Pair[] }) {
       {pairs.map((p) => (
         <div
           key={p.src + p.tgt}
+          className="pl-item"
           style={{
             display: 'flex',
             alignItems: 'baseline',
@@ -34,6 +36,7 @@ export default function PairList({ pairs }: { pairs: Pair[] }) {
             <span style={{ color: 'var(--fg-faint)', fontSize: '0.85em' }}>×{p.n}</span>
           )}
           <span
+            className="pl-tag"
             style={{
               marginLeft: 'auto',
               fontSize: 11,

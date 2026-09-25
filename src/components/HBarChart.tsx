@@ -19,6 +19,7 @@ export default function HBarChart({
   return (
     <div
       ref={ref}
+      className="hb"
       style={{
         width: '100%',
         display: 'grid',
@@ -68,6 +69,7 @@ export default function HBarChart({
               />
             </div>
             <div
+              className="hb-val"
               style={{
                 flex: '0 0 auto',
                 minWidth: '5.5em',
@@ -76,7 +78,12 @@ export default function HBarChart({
               }}
             >
               <strong>{d.value}</strong>
-              {d.hint && <span style={{ color: 'var(--fg-faint)' }}> · {d.hint}</span>}
+              {d.hint && (
+                <span className="hb-hint" style={{ color: 'var(--fg-faint)' }}>
+                  {' '}
+                  · {d.hint}
+                </span>
+              )}
             </div>
           </div>
         </div>
