@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-/* Floating ID | DE switch (top-right). The two decks live at "/" and "/de";
-   switching reloads the other version at its first slide (slide counts differ).
+/* Floating ID | DE switch (top-right). The two decks live at "/" and "/de" and
+   mirror each other slide for slide, so switching keeps the current slide (#n).
    Fades out with the mouse idle like the dock, never renders in the presenter
    tab, and the L key toggles it too. */
 export default function LangSwitch({ lang }: { lang: 'id' | 'de' }) {
@@ -10,7 +10,7 @@ export default function LangSwitch({ lang }: { lang: 'id' | 'de' }) {
 
   const go = (to: 'id' | 'de') => {
     if (to === lang) return;
-    window.location.href = (to === 'de' ? '/de' : '/') + '#1';
+    window.location.href = (to === 'de' ? '/de' : '/') + (window.location.hash || '#1');
   };
 
   useEffect(() => {
